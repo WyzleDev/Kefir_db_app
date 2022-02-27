@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home Page - All users
+{% endblock %}
+
+
+{% block content %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Kefir Users</a>
+            <a class="nav-item text-decoration-none text-white" href="/logout">Logout</a>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+    <div class="row row-cols-2 g-4 mt-3 align-items-center">
+    {% for user in users %}
+        <div class="col">
+        <div class="card m-auto my-auto" style="max-width: 540px;">
+
+            <div class="row g-0 align-items-center">
+                <div class="col-md-4 text-center">
+                    {% if user.is_superuser %}
+                        <p class="d-block align-middle">superuser</p>
+                    {% elif user.is_staff %}
+                        <p class="d-block align-middle">staff</p>
+                    {% else %}
+                        <p class="d-block align-middle">user</p>
+                    {% endif %}
+                </div>
+
+
+                <div class="col-md-8">
+                    {% if request.user.id == user.id %}
+                        <div class="card-body bg-warning">
+                    {% else %}
+                        <div class="card-body">
+                    {% endif %}
+
+                    <h5 class="card-title">
+                        {% if user.first_name %}
+{#                            {{ user.first_name }}#}
+{#                            {{ user.last_name }}#}
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </h5>
+                    <p class="card-text">{{ user.username }}</p>
+                    {% if request.user.is_superuser or request.user.is_staff %}
+                        <p class="card-text">{{ user.email }}</p>
+                    {% elif request.user.id == user.id %}
+                        <p class="card-text">{{ user.email }}</p>
+                    {% else %}
+                    {% endif %}
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Last seen: {{ user.last_login }}
+                        </small>
+                    </p>
+                    {% if request.user.is_superuser or request.user.is_staff %}
+                        <div class="row">
+                            <div class="col-sm-5"><a class="btn btn-dark"
+                                                     href="/admin/auth/user/{{ user.id }}/change/">редактировать</a>
+                            </div>
+                            <div class="col-sm-5">
+                                <a class="btn btn-dark" href="{% url 'del_user' id=user.id %}">Удалить</a>
+                            </div>
+                        </div>
+                    {% elif not request.user.is_superuser or not request.user.is_staff %}
+                        {% if request.user.id == user.id %}
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <a class="btn btn-dark"
+                                       href="{% url 'edit_user' id=user.id %}">редактировать</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+</div>
+
+
+
+
+
+
+
+
+</div></div>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+        }
+
+        /* Full-width input fields */
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+        input[type=text], input[type=email] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit/register button */
+        .registerbtn {
+            background-color: #000000;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+{% if form.errors %}
+    <script>alert("Некоректные данные, либо логин уже занят")</script>
+{% endif %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="container">
+        <h1>Ргистрация</h1>
+        <p>Пожалуйста, заполните поля ниже</p>
+        <hr>
+
+        <label for="name"><b>Логин <span style="color: red">*</span></b></label>
+        {{ form.username }}
+
+        <label for="email"><b>Почта</b></label>
+        <p aria-required="true">{{ form.email }}</p>
+
+        <label for="email"><b>Имя</b></label>
+        <p aria-required="true">{{ form.first_name }}</p>
+
+        <label for="email"><b>Фамилия</b></label>
+        <p aria-required="true">{{ form.last_name }}</p>
+
+        <label for="psw"><b>Пароль<span style="color: red">*</span></b></label>
+        {{ form.password1 }}
+
+        <label for="psw-repeat"><b>Повторите пароль<span style="color: red">*</span></b></label>
+        {{ form.password2 }}
+        <hr>
+
+        <button type="submit" class="registerbtn">Зарегистрироваться</button>
+    </div>
+
+    <div class="container signin">
+        <p>Уже есть аккаунт? <a href="{% url 'login_user' %}">Войдите</a>.</p>
+    </div>
+</form>
+
+<script>
+
+</script>
+</body>
+</html>
